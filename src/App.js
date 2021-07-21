@@ -15,6 +15,9 @@ import Link from "@material-ui/core/Link";
 import React from "react";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
 
 const App = () => {
   //const lastBlock = getLatestBlock();
@@ -25,6 +28,20 @@ const App = () => {
   const getBlock = async () => {
     const blockNumber = await provider().getBlockNumber();
     setLatestBlock(blockNumber);
+  };
+  const [network, setNetwork] = React.useState("");
+  const [open, setOpen] = React.useState(false);
+
+  const handleChange = (event) => {
+    setNetwork(event.target.value);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
   };
 
   useEffect(() => {
@@ -101,9 +118,31 @@ const App = () => {
               <Grid container spacing={2} justifyContent="center">
                 <Grid item>
                   <MenuItem>
-                    <Button variant="contained" color="primary">
+                    {/* <Button variant="contained" color="primary">
                       Switch network
+                    </Button> */}
+                    <Button className={classes.button} onClick={handleOpen}>
+                      Select network:
                     </Button>
+                    <FormControl className={classes.formControl}>
+                      {/* <InputLabel id="demo-controlled-open-select-label">
+                        Network
+                      </InputLabel> */}
+                      <Select
+                        labelId="demo-controlled-open-select-label"
+                        id="demo-controlled-open-select"
+                        open={open}
+                        onClose={handleClose}
+                        onOpen={handleOpen}
+                        value={1}
+                        onChange={handleChange}
+                      >
+                        <MenuItem value={1}>Ethereum Mainnet</MenuItem>
+                        <MenuItem value={2}>Ropsten</MenuItem>
+                        <MenuItem value={3}>Kovan</MenuItem>
+                        <MenuItem value={4}>Goerli</MenuItem>
+                      </Select>
+                    </FormControl>
                   </MenuItem>
                 </Grid>
               </Grid>

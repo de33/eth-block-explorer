@@ -73,7 +73,9 @@ const Block = (props) => {
           Mined {moment(blockInfo.timestamp * 1000).fromNow()} by{" "}
           <Router>
             <Link to={`/addresses/${blockInfo.miner}`}>{blockInfo.miner}</Link>
-            <Route path="/addresses/:id" exact component={Address} />
+            <Switch>
+              <Route path="/addresses/:id" exact component={Address} />
+            </Switch>
           </Router>
         </Typography>
         {/* <Typography>Timestamp {blockInfo.timestamp}</Typography>

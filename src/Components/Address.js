@@ -9,7 +9,7 @@ const Address = () => {
     const _balance = await provider().getBalance(
       "0x5A0b54D5dc17e0AadC383d2db43B0a0D3E029c4c"
     );
-    setBalance(formatEther(_balance));
+    setBalance(formatEther(_balance.toString()));
   };
 
   useEffect(() => {

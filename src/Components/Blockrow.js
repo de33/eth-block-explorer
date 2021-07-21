@@ -3,13 +3,32 @@ import Block from "./Block";
 import { Container } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
+import { Snackbar } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
+import provider from "../getBlocks";
 
 const Blockrow = (props) => {
   console.log("hey", props);
   let rows = [];
-  const blockNumber = props.num;
+  const [blockNumber, setBlockNumber] = useState(props.num);
   const number = 6;
   const [row, setRow] = useState();
+  const [open, setOpen] = useState(false);
+
+  //   provider().on("block", (_blockNumber) => {
+  //     if (_blockNumber > blockNumber) {
+  //       setOpen(true);
+  //       setBlockNumber(_blockNumber);
+  //     }
+  //   });
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   const createBlockRow = () => {
     for (let i = 0; i < number; i++) {
@@ -67,6 +86,16 @@ const Blockrow = (props) => {
           </Grid>
         ))}
       </Grid>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Alert onClose={handleClose} severity="info">
+          A new block has been mined! Click to update.
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };
