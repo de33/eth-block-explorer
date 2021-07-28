@@ -82,7 +82,9 @@ const Blockrow = (props) => {
       <Grid container spacing={3}>
         {rows.map((el, index) => (
           <Grid item key={el} xs={12} sm={6} md={4}>
-            <Block num={el}>index</Block>
+            <Block num={el} network={props.network}>
+              index
+            </Block>
           </Grid>
         ))}
       </Grid>

@@ -18,6 +18,13 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  NavLink,
+} from "react-router-dom";
+import Block from "./Components/Block";
 
 const App = () => {
   //const lastBlock = getLatestBlock();
@@ -29,20 +36,20 @@ const App = () => {
     const blockNumber = await provider().getBlockNumber();
     setLatestBlock(blockNumber);
   };
-  const [network, setNetwork] = React.useState("");
+  // const [network, setNetwork] = React.useState("mainnet");
   const [open, setOpen] = React.useState(false);
 
-  const handleChange = (event) => {
-    setNetwork(event.target.value);
-  };
+  // const handleChange = (event) => {
+  //   setNetwork(event.target.value);
+  // };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
+  // const handleOpen = () => {
+  //   setOpen(true);
+  // };
 
   useEffect(() => {
     getBlock();
@@ -81,89 +88,99 @@ const App = () => {
   }));
 
   const classes = useStyles();
+  debugger;
 
   return (
-    <React.Fragment>
-      <CssBaseline />
-      <AppBar position="relative">
-        <Toolbar>
-          <CameraIcon className={classes.icon} />
-          <Typography variant="h6" color="inherit" noWrap>
-            Album layout
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <main>
-        {/* Hero unit */}
-        <div className={classes.heroContent}>
-          <Container maxWidth="lg">
-            <Typography
-              component="h2"
-              variant="h3"
-              align="center"
-              color="textPrimary"
-              gutterBottom
-            >
-              View block information on Ethereum mainnet and testnets.
+    <Router>
+      <React.Fragment>
+        <CssBaseline />
+        <AppBar position="relative">
+          <Toolbar>
+            <CameraIcon className={classes.icon} />
+            <Typography variant="h6" color="inherit" noWrap>
+              Album layout
             </Typography>
-            <Typography
-              variant="h5"
-              align="center"
-              color="textSecondary"
-              paragraph
-            >
-              Latest block on Ethereum Mainnet: {latestBlock}
-            </Typography>
-            <div className={classes.heroButtons}>
-              <Grid container spacing={2} justifyContent="center">
-                <Grid item>
-                  <MenuItem>
-                    {/* <Button variant="contained" color="primary">
+          </Toolbar>
+        </AppBar>
+        <main>
+          {/* Hero unit */}
+          <div className={classes.heroContent}>
+            <Container maxWidth="lg">
+              <Typography
+                component="h2"
+                variant="h3"
+                align="center"
+                color="textPrimary"
+                gutterBottom
+              >
+                View block information on Ethereum mainnet and testnets.
+              </Typography>
+              <Typography
+                variant="h5"
+                align="center"
+                color="textSecondary"
+                paragraph
+              >
+                Latest block on Ethereum Mainnet:{" "}
+                <NavLink exact to={`/blocks/${latestBlock}`}>
+                  {latestBlock}
+                </NavLink>
+              </Typography>
+              <div className={classes.heroButtons}>
+                <Grid container spacing={2} justifyContent="center">
+                  {/* <Grid item>
+                  <MenuItem> */}
+                  {/* <Button variant="contained" color="primary">
                       Switch network
                     </Button> */}
-                    <Button className={classes.button} onClick={handleOpen}>
+                  {/* <Button className={classes.button} onClick={handleOpen}>
                       Select network:
                     </Button>
-                    <FormControl className={classes.formControl}>
-                      {/* <InputLabel id="demo-controlled-open-select-label">
+                    <FormControl className={classes.formControl}> */}
+                  {/* <InputLabel id="demo-controlled-open-select-label">
                         Network
                       </InputLabel> */}
-                      <Select
+                  {/* <Select
                         labelId="demo-controlled-open-select-label"
                         id="demo-controlled-open-select"
                         open={open}
                         onClose={handleClose}
                         onOpen={handleOpen}
-                        value={1}
+                        value={network}
                         onChange={handleChange}
                       >
-                        <MenuItem value={1}>Ethereum Mainnet</MenuItem>
-                        <MenuItem value={2}>Ropsten</MenuItem>
-                        <MenuItem value={3}>Kovan</MenuItem>
-                        <MenuItem value={4}>Goerli</MenuItem>
+                        <MenuItem value={"mainnet"}>Ethereum Mainnet</MenuItem>
+                        <MenuItem value={"ropsten"}>Ropsten</MenuItem>
+                        <MenuItem value={"kovan"}>Kovan</MenuItem>
+                        <MenuItem value={"goerli"}>Goerli</MenuItem>
                       </Select>
                     </FormControl>
                   </MenuItem>
+                </Grid> */}
                 </Grid>
-              </Grid>
-              <Blockrow num={latestBlock} />
-            </div>
-          </Container>
-        </div>
-      </main>
-      {/* Footer */}
-      <footer className={classes.footer}>
-        <Typography variant="h6" align="center" gutterBottom>
-          Check out the source code below:
-        </Typography>
-        <Typography variant="body2" color="textSecondary" align="center">
-          <Link color="inherit" href="https://github.com/de33">
-            github.com/de33
-          </Link>
-        </Typography>
-      </footer>
-      {/* End footer */}
-    </React.Fragment>
+                {/* <Blockrow num={latestBlock} network={network} /> */}
+                <Blockrow num={latestBlock} />
+              </div>
+            </Container>
+          </div>
+        </main>
+        {/* Footer */}
+        <footer className={classes.footer}>
+          <Typography variant="h6" align="center" gutterBottom>
+            Check out the source code below:
+          </Typography>
+          <Typography variant="body2" color="textSecondary" align="center">
+            <Link color="inherit" href="https://github.com/de33">
+              github.com/de33
+            </Link>
+          </Typography>
+        </footer>
+        {/* End footer */}
+      </React.Fragment>
+      <Switch>
+        <Route path={`/blocks/${latestBlock}`} exact component={Block} />
+      </Switch>
+    </Router>
   );
 };
 

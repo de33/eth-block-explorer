@@ -12,7 +12,6 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Address from "./Address";
 
 const Block = (props) => {
-  console.log("grrr", props);
   const [blockInfo, setBlockInfo] = useState({});
 
   const getBlockInfo = async () => {
@@ -74,7 +73,9 @@ const Block = (props) => {
           <Router>
             <Link to={`/addresses/${blockInfo.miner}`}>{blockInfo.miner}</Link>
             <Switch>
-              <Route path="/addresses/:id" exact component={Address} />
+              <Route path="/addresses/:id">
+                <Address></Address>
+              </Route>
             </Switch>
           </Router>
         </Typography>
