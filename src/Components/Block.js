@@ -8,7 +8,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import CardContent from "@material-ui/core/CardContent";
 import Card from "@material-ui/core/Card";
 import moment from "moment";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  NavLink,
+} from "react-router-dom";
 import Address from "./Address";
 
 const Block = (props) => {
@@ -66,26 +71,27 @@ const Block = (props) => {
     <Card className={classes.card}>
       <CardContent className={classes.cardContent}>
         <Typography gutterBottom variant="h4" component="h2">
-          Block #{blockInfo.number}
+          Block{" "}
+          <NavLink exact to={`/blocks/${blockInfo.number}`}>
+            #{blockInfo.number}
+          </NavLink>
         </Typography>
         <Typography variant="h9" component="h8">
           Mined {moment(blockInfo.timestamp * 1000).fromNow()} by{" "}
-          <Router>
-            <Link to={`/addresses/${blockInfo.miner}`}>{blockInfo.miner}</Link>
-            <Switch>
-              <Route path="/addresses/:id">
-                <Address></Address>
-              </Route>
-            </Switch>
-          </Router>
+          <NavLink to={`/addresses/${blockInfo.miner}`}>
+            {blockInfo.miner}
+          </NavLink>
         </Typography>
         {/* <Typography>Timestamp {blockInfo.timestamp}</Typography>
         <Typography>Difficulty {blockInfo.difficulty}</Typography> */}
       </CardContent>
       <CardActions>
-        <Button size="small" color="primary">
-          View more info
-        </Button>
+        <NavLink exact to={`/blocks/${blockInfo.number}`}>
+          {" "}
+          <Button size="small" color="primary">
+            View more info
+          </Button>
+        </NavLink>
       </CardActions>
     </Card>
   );

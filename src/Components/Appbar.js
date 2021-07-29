@@ -5,6 +5,8 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
+import { useHistory, NavLink } from "react-router-dom";
+import { isAddress } from "@ethersproject/address";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -74,28 +76,43 @@ export default function PrimarySearchAppBar() {
   const classes = useStyles();
   const [input, setInput] = React.useState("");
 
+  let history = useHistory();
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (Number.isInteger(input)) {
+      history.push(`/blocks/${input}`);
+    } else if (isAddress(input)) {
+      history.push(`/addresses/${input}`);
+    }
+  };
+
   return (
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
-            Ethereum Block Explorer
+            <NavLink exact to="/">
+              Ethereum Block Explorer
+            </NavLink>
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
-            <InputBase
-              placeholder="Search addr/txn/block"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ "aria-label": "search" }}
-              onChange={(event) => {
-                setInput(event.target.value);
-              }}
-            />
+            <form onSubmit={onSubmit}>
+              <InputBase
+                placeholder="Search address/block"
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                inputProps={{ "aria-label": "search" }}
+                onChange={(event) => {
+                  setInput(event.target.value);
+                }}
+              />
+            </form>
           </div>
           <div className={classes.grow} />
         </Toolbar>

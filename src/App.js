@@ -28,6 +28,8 @@ import { useStyles } from "./theme";
 import useGetBlocks from "./hooks";
 import Home from "./Components/Home";
 import BlockPage from "./Components/BlockPage";
+import AddressPage from "./Components/AddressPage";
+import TransactionPage from "./Components/TransactionPage";
 
 const App = () => {
   //const [error, setError] = useState(null);
@@ -69,6 +71,12 @@ const App = () => {
           <Switch>
             <Route path="/" exact component={Home} />
             <Route path={`/blocks/:blockNumber`} exact component={BlockPage} />
+            <Route path={`/addresses/:address`} exact component={AddressPage} />
+            <Route
+              path={`/transactions/:transaction`}
+              exact
+              component={TransactionPage}
+            />
           </Switch>
         </main>
         {/* Footer */}
