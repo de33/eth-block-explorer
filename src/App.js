@@ -1,5 +1,5 @@
-//import provider, { getLatestBlock, getBlockInfo } from "./getBlocks";
-import Blockrow from "./Components/Blockrow";
+//import provider, { , getBlockInfo } from "./getBlocks";
+import Blockrow from "./Components/Blockrow/Blockrow";
 import { useEffect, useState } from "react";
 import provider from "./getBlocks";
 import AppBar from "./Components/Appbar";
@@ -24,20 +24,17 @@ import {
   Route,
   NavLink,
 } from "react-router-dom";
-import Block from "./Components/Block";
+import { useStyles } from "./theme";
+import useGetBlocks from "./hooks";
+import Home from "./Components/Home";
+import BlockPage from "./Components/BlockPage";
 
 const App = () => {
-  //const lastBlock = getLatestBlock();
-  //console.log("here", lastBlock);
-  const [latestBlock, setLatestBlock] = useState(null);
   //const [error, setError] = useState(null);
   //const [loading, setLoading] = useState(true);
-  const getBlock = async () => {
-    const blockNumber = await provider().getBlockNumber();
-    setLatestBlock(blockNumber);
-  };
+
   // const [network, setNetwork] = React.useState("mainnet");
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   // const handleChange = (event) => {
   //   setNetwork(event.target.value);
@@ -51,44 +48,8 @@ const App = () => {
   //   setOpen(true);
   // };
 
-  useEffect(() => {
-    getBlock();
-  }, []);
-
-  const useStyles = makeStyles((theme) => ({
-    icon: {
-      marginRight: theme.spacing(2),
-    },
-    heroContent: {
-      backgroundColor: theme.palette.background.paper,
-      padding: theme.spacing(8, 0, 6),
-    },
-    heroButtons: {
-      marginTop: theme.spacing(4),
-    },
-    cardGrid: {
-      paddingTop: theme.spacing(8),
-      paddingBottom: theme.spacing(8),
-    },
-    card: {
-      height: "100%",
-      display: "flex",
-      flexDirection: "column",
-    },
-    cardMedia: {
-      paddingTop: "56.25%", // 16:9
-    },
-    cardContent: {
-      flexGrow: 1,
-    },
-    footer: {
-      backgroundColor: theme.palette.background.paper,
-      padding: theme.spacing(6),
-    },
-  }));
-
   const classes = useStyles();
-  debugger;
+  // debugger;
 
   return (
     <Router>
@@ -102,67 +63,13 @@ const App = () => {
             </Typography>
           </Toolbar>
         </AppBar>
+
         <main>
           {/* Hero unit */}
-          <div className={classes.heroContent}>
-            <Container maxWidth="lg">
-              <Typography
-                component="h2"
-                variant="h3"
-                align="center"
-                color="textPrimary"
-                gutterBottom
-              >
-                View block information on Ethereum mainnet and testnets.
-              </Typography>
-              <Typography
-                variant="h5"
-                align="center"
-                color="textSecondary"
-                paragraph
-              >
-                Latest block on Ethereum Mainnet:{" "}
-                <NavLink exact to={`/blocks/${latestBlock}`}>
-                  {latestBlock}
-                </NavLink>
-              </Typography>
-              <div className={classes.heroButtons}>
-                <Grid container spacing={2} justifyContent="center">
-                  {/* <Grid item>
-                  <MenuItem> */}
-                  {/* <Button variant="contained" color="primary">
-                      Switch network
-                    </Button> */}
-                  {/* <Button className={classes.button} onClick={handleOpen}>
-                      Select network:
-                    </Button>
-                    <FormControl className={classes.formControl}> */}
-                  {/* <InputLabel id="demo-controlled-open-select-label">
-                        Network
-                      </InputLabel> */}
-                  {/* <Select
-                        labelId="demo-controlled-open-select-label"
-                        id="demo-controlled-open-select"
-                        open={open}
-                        onClose={handleClose}
-                        onOpen={handleOpen}
-                        value={network}
-                        onChange={handleChange}
-                      >
-                        <MenuItem value={"mainnet"}>Ethereum Mainnet</MenuItem>
-                        <MenuItem value={"ropsten"}>Ropsten</MenuItem>
-                        <MenuItem value={"kovan"}>Kovan</MenuItem>
-                        <MenuItem value={"goerli"}>Goerli</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </MenuItem>
-                </Grid> */}
-                </Grid>
-                {/* <Blockrow num={latestBlock} network={network} /> */}
-                <Blockrow num={latestBlock} />
-              </div>
-            </Container>
-          </div>
+          <Switch>
+            <Route path="/" exact component={Home} />
+            <Route path={`/blocks/:blockNumber`} exact component={BlockPage} />
+          </Switch>
         </main>
         {/* Footer */}
         <footer className={classes.footer}>
@@ -177,9 +84,6 @@ const App = () => {
         </footer>
         {/* End footer */}
       </React.Fragment>
-      <Switch>
-        <Route path={`/blocks/${latestBlock}`} exact component={Block} />
-      </Switch>
     </Router>
   );
 };
