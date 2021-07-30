@@ -86,7 +86,7 @@ const App = () => {
           </Typography>
           <Typography variant="body2" color="textSecondary" align="center">
             <Link color="inherit" href="https://github.com/de33">
-              github.com/de33
+              github.com/de33/eth-block-explorer
             </Link>
           </Typography>
         </footer>
