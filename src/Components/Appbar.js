@@ -76,11 +76,13 @@ export default function PrimarySearchAppBar() {
   const classes = useStyles();
   const [input, setInput] = React.useState("");
 
+  console.log("input", Number.isInteger(input));
+
   let history = useHistory();
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (Number.isInteger(input)) {
+    if (typeof parseInt(input) === "number") {
       history.push(`/blocks/${input}`);
     } else if (isAddress(input)) {
       history.push(`/addresses/${input}`);

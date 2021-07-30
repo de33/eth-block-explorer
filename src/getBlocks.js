@@ -2,7 +2,7 @@ import { ethers } from "ethers";
 
 const provider = () =>
   new ethers.providers.JsonRpcProvider({
-    url: `https://mainnet.infura.io/v3/2b3f02d5ea1744418f4a7f1aae197184`,
+    url: process.env.REACT_APP_INFURA_PROVIDER,
   });
 
 export const getLatestBlock = async () => {
